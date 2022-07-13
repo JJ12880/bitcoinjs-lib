@@ -41,6 +41,7 @@ function isOutput(out) {
 class Transaction {
   constructor() {
     this.version = 1;
+    this.time = 0;
     this.locktime = 0;
     this.ins = [];
     this.outs = [];
@@ -49,6 +50,7 @@ class Transaction {
     const bufferReader = new bufferutils_1.BufferReader(buffer);
     const tx = new Transaction();
     tx.version = bufferReader.readInt32();
+    tx.time = bufferReader.readInt32();
     const marker = bufferReader.readUInt8();
     const flag = bufferReader.readUInt8();
     let hasWitnesses = false;
@@ -156,7 +158,7 @@ class Transaction {
   byteLength(_ALLOW_WITNESS = true) {
     const hasWitnesses = _ALLOW_WITNESS && this.hasWitnesses();
     return (
-      (hasWitnesses ? 10 : 8) +
+      (hasWitnesses ? 14 : 2) +
       bufferutils_1.varuint.encodingLength(this.ins.length) +
       bufferutils_1.varuint.encodingLength(this.outs.length) +
       this.ins.reduce((sum, input) => {
@@ -175,6 +177,7 @@ class Transaction {
   clone() {
     const newTx = new Transaction();
     newTx.version = this.version;
+    newTx.time = this.time;
     newTx.locktime = this.locktime;
     newTx.ins = this.ins.map(txIn => {
       return {
@@ -348,6 +351,7 @@ class Transaction {
     sigMsgWriter.writeUInt8(hashType);
     // Transaction
     sigMsgWriter.writeInt32(this.version);
+    sigMsgWriter.writeInt32(this.time);
     sigMsgWriter.writeUInt32(this.locktime);
     sigMsgWriter.writeSlice(hashPrevouts);
     sigMsgWriter.writeSlice(hashAmounts);
@@ -452,6 +456,7 @@ class Transaction {
     bufferWriter = new bufferutils_1.BufferWriter(tbuffer, 0);
     const input = this.ins[inIndex];
     bufferWriter.writeInt32(this.version);
+    bufferWriter.writeInt32(this.time);
     bufferWriter.writeSlice(hashPrevouts);
     bufferWriter.writeSlice(hashSequence);
     bufferWriter.writeSlice(input.hash);
@@ -496,6 +501,7 @@ class Transaction {
       initialOffset || 0,
     );
     bufferWriter.writeInt32(this.version);
+    bufferWriter.writeInt32(this.time);
     const hasWitnesses = _ALLOW_WITNESS && this.hasWitnesses();
     if (hasWitnesses) {
       bufferWriter.writeUInt8(Transaction.ADVANCED_TRANSACTION_MARKER);
