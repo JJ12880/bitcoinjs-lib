@@ -3,7 +3,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 exports.signature = exports.number = exports.isCanonicalScriptSignature = exports.isDefinedHashType = exports.isCanonicalPubKey = exports.toStack = exports.fromASM = exports.toASM = exports.decompile = exports.compile = exports.isPushOnly = exports.OPS = void 0;
 const bip66 = require('./bip66');
 const ops_1 = require('./ops');
-const Buffer = require('buffer');
+var Buffer = require('buffer/').Buffer;
 Object.defineProperty(exports, 'OPS', {
   enumerable: true,
   get: function() {
