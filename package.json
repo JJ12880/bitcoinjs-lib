@@ -52,6 +52,7 @@
     "bech32": "^2.0.0",
     "bip174": "^2.0.1",
     "bs58check": "^2.1.2",
+    "buffer": "^6.0.3",
     "create-hash": "^1.1.0",
     "typeforce": "^1.11.3",
     "varuint-bitcoin": "^1.1.2",

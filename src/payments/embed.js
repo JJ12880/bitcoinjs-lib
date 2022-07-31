@@ -5,6 +5,7 @@ const networks_1 = require('../networks');
 const bscript = require('../script');
 const types_1 = require('../types');
 const lazy = require('./lazy');
+const Buffer = require('buffer');
 const OPS = bscript.OPS;
 function stacksEqual(a, b) {
   if (a.length !== b.length) return false;
